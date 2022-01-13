@@ -1,9 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using web_api_RPG.Data;
 using web_api_RPG.Services.CharacterService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

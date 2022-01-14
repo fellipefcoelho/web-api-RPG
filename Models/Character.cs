@@ -16,5 +16,6 @@ namespace web_api_RPG.Models
         public int Intelligence { get; set; } = 200;
 
         public RpgClass Class { get; set; } = RpgClass.Mage;
+        public User User { get; set; }
     }
 }

@@ -22,17 +22,17 @@ namespace web_api_RPG.Services.CharacterService
         }
          public async Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
         {
-            ServiceResponse<List<GetCharacterDto>> serviceResponse = serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
+            ServiceResponse<List<GetCharacterDto>> serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
             Character character = _mapper.Map<Character>(newCharacter);
             await _context.Characters.AddAsync(character);
             await _context.SaveChangesAsync();
             serviceResponse.Data = (_context.Characters.Select(c => _mapper.Map<GetCharacterDto>(c))).ToList();
             return serviceResponse;
         }
-        public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
+        public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters(int userId)
         {
             ServiceResponse<List<GetCharacterDto>> serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
-            List<Character> dbCharacters = await _context.Characters.ToListAsync();
+            List<Character> dbCharacters = await _context.Characters.Where(c => c.User.Id == userId).ToListAsync();
             serviceResponse.Data = (dbCharacters.Select(c => _mapper.Map<GetCharacterDto>(c))).ToList();
             return serviceResponse;
         }
@@ -65,7 +65,7 @@ namespace web_api_RPG.Services.CharacterService
             }
             catch (System.Exception ex)
             {
-                serviceResponse.Succes = false;
+                serviceResponse.Success = false;
                 serviceResponse.Message = ex.Message;
             }
             return serviceResponse;
@@ -84,7 +84,7 @@ namespace web_api_RPG.Services.CharacterService
             catch (System.Exception ex)
             {
                 
-                serviceResponse.Succes = false;
+                serviceResponse.Success = false;
                 serviceResponse.Message = ex.Message;
             }
             return serviceResponse;

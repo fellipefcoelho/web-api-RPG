@@ -8,7 +8,7 @@ namespace web_api_RPG.Models
     public class ServiceResponse<T>
     {
         public T Data { get; set; }
-        public bool Succes { get; set; } = true;
+        public bool Success { get; set; } = true;
         public string Message { get; set; } = null;
     }
 }
